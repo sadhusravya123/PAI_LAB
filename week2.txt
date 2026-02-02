@@ -1,0 +1,22 @@
+visited = {}
+def water_jug_memo(x, y, jug1, jug2, target):
+    if (x, y) in visited:
+        return False
+    print((x, y))
+    visited[(x, y)] = True
+    if x == target or y == target:
+        return True
+    return (
+        water_jug_memo(jug1, y, jug1, jug2, target) or
+        water_jug_memo(x, jug2, jug1, jug2, target) or
+        water_jug_memo(0, y, jug1, jug2, target) or
+        water_jug_memo(x, 0, jug1, jug2, target) or
+        water_jug_memo(min(jug1, x+y), max(0, y-(jug1-x)), jug1, jug2, target) or
+        water_jug_memo(max(0, x-(jug2-y)), min(jug2, x+y), jug1, jug2, target)
+    )
+jug1 = int(input("Enter capacity of Jug 1: "))
+jug2 = int(input("Enter capacity of Jug 2: "))
+target = int(input("Enter target amount: "))
+
+print("\nMemoization Path:")
+water_jug_memo(0, 0, jug1, jug2, target)
